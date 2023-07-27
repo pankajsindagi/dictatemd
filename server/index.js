@@ -29,7 +29,7 @@ const DocumentSchema = new mongoose.Schema({
 
 const Document = mongoose.model("Document", DocumentSchema);
 
-// in-memory cache
+// in-memory cache, not good for distributed systems. Use redis instead.
 let cache = {};
 
 app.post("/upload", async (req, res) => {
@@ -37,7 +37,6 @@ app.post("/upload", async (req, res) => {
 
   try {
     const doc = await newDocument.save();
-    cache = {};
     return res.status(200).send(doc);
   } catch (err) {
     return res.status(500).send(err);
